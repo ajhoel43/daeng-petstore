@@ -20,13 +20,20 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Pembeli::class, function (Faker\Generator $faker) {
+    return [
+        'nama' => $faker->name,
+        'alamat' => $faker->city,
+    ];
+});
+
 $factory->define(App\Barang::class, function(Faker\Generator $faker){
 	$input_jenis = array('Hewan', 'Makanan', 'Perlengkapan');
 	$rand_jenis = array_rand($input_jenis, 1);
 
 	$input_stn = array('Gram', 'Kg', 'Pcs', 'Lsn');
 	$rand_stn = array_rand($input_stn, 1);
-	
+
 	return [
 		'nama' => $faker->name,
 		'jenis' => $input_jenis[$rand_jenis],
