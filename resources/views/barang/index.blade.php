@@ -22,9 +22,10 @@
         </thead>
 
         <tbody>
+            <?php $no = 1; ?>
             @foreach ($barangs as $barang)
                 <tr>
-                    <td>{{ $barang->id }}</td>
+                    <td>{{ $no }}</td>
                     <td>{{ $barang->nama }}</td>
                     <td>{{ $barang->jenis }}</td>
                     <td>{{ $barang->harga }}</td>
@@ -37,6 +38,7 @@
                         {{ Form::close() }}
                     </td>
                 </tr>
+                <?php $no++; ?>
             @endforeach
               
         </tbody>
