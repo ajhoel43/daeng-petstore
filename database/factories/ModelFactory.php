@@ -28,14 +28,20 @@ $factory->define(App\Pembeli::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Barang::class, function(Faker\Generator $faker){
+	$inputnama1 = array('Whiskas', 'Friskie', 'Litter', 'Vitamin', 'Feather');
+	$rand_nama1 = array_rand($inputnama1, 1);
+
+	$inputnama2 = array('Kaleng','Karung', 'Buah', 'Refill');
+	$rand_nama2 = array_rand($inputnama2, 1);
+
 	$input_jenis = array('Hewan', 'Makanan', 'Perlengkapan');
 	$rand_jenis = array_rand($input_jenis, 1);
 
-	$input_stn = array('Gram', 'Kg', 'Pcs', 'Lsn');
+	$input_stn = array('Gram', 'Kg', 'Pcs', 'Lsn', 'Ekor');
 	$rand_stn = array_rand($input_stn, 1);
 
 	return [
-		'nama' => $faker->name,
+		'nama' => $inputnama1[$rand_nama1]." ".$inputnama2[$rand_nama2],
 		'jenis' => $input_jenis[$rand_jenis],
 		'harga' => rand(10000, 1000000),
 		'stok'  => rand(10, 1000),
