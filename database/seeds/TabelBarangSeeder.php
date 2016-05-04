@@ -12,7 +12,7 @@ class TabelBarangSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Barang::class, 5)->create();
+        factory(App\Barang::class, 20)->create();
         factory(App\Pembeli::class, 5)->create();
     }
 }
