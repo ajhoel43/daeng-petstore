@@ -6,10 +6,31 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Barang as Barang;
-use View, Input, Validator, Redirect;
+use View, Input, Validator, Redirect, DB;
 
 class C_barang extends Controller
 {
+    protected $jenisbarang = array();
+
+    protected $satuan = array();
+
+    public function __construct()
+    {
+        $this->jenisbarang = array(
+            'Hewan' => 'Hewan',
+            'Makanan' => 'Makanan',
+            'Perlengkapan' => 'Perlengkapan'
+            );
+
+        $this->satuan = array(
+            'Gram' => 'Gram', 
+            'Kg' => 'Kg', 
+            'Pcs' => 'Pcs', 
+            'Lsn' => 'Lsn', 
+            'Ekor' => 'Ekor'
+            );
+    }
+
     public function index()
     {
     	$barangs = Barang::all();
@@ -21,40 +42,41 @@ class C_barang extends Controller
     public function store()
     {
     	$input = Input::all();
-        $validation = Validator::make($input, Barang::validation());
 
-        if ($validation->passes())
-        {
-            Barang::create($input);
+        $insert = Barang::create($input);
 
+        if($insert)
             return Redirect::route('barang.index');
+        else
+        {
+            return Redirect::route('barang.create')
+                ->with('message', 'Error when insert data.');
         }
-
-        return Redirect::route('barang.create')
-            ->withInput()
-            ->withErrors($validation)
-            ->with('message', 'There were validation errors.');
     }
 
     public function create()
     {
-    	return View::make('barang.create');
+        $data = array(
+            'jenis' => $this->jenisbarang,
+            'satuan' => $this->satuan
+            );
+
+    	return View::make('barang.inputbarang', compact('data'));
     }
 
     public function update($id)
     {
     	$input = Input::all();
-        $validation = Validator::make($input, Barang::validation());
-        if ($validation->passes())
-        {
-            $user = Barang::find($id);
-            $user->update($input);
+
+        $user = Barang::find($id);
+        $update = $user->update($input);
+        if($update)
             return Redirect::route('barang.index');
+        else
+        {
+    		return Redirect::route('barang.edit', $id)
+                ->with('message', 'Error when update data.');
         }
-		return Redirect::route('barang.edit', $id)
-            ->withInput()
-            ->withErrors($validation)
-            ->with('message', 'There were validation errors.');
     }
 
     public function show()
@@ -73,8 +95,11 @@ class C_barang extends Controller
     	$barang = Barang::find($id);
         if (is_null($barang))
         {
-            return Redirect::route('barang.index');
+            return Redirect::route('barang.index')->with('message', 'Barang dengan $id tidak ditemukan');
         }
-        return View::make('barang.edit', compact('barang'));
+        $data['jenis'] = $this->jenisbarang;
+        $data['satuan'] = $this->satuan;
+
+        return View::make('barang.editbarang', compact(array('barang', 'data')));
     }
 }
