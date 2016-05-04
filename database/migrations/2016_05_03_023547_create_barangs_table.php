@@ -16,7 +16,7 @@ class CreateBarangsTable extends Migration
             $table->increments('id');
             $table->string('nama');
             $table->string('jenis');
-            $table->float('harga');
+            $table->double('harga', 12, 2);
             $table->bigInteger('stok');
             $table->string('satuan');
             $table->timestamps();
