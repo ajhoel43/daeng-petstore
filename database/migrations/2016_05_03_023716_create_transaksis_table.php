@@ -16,11 +16,6 @@ class CreateTransaksisTable extends Migration
             $table->increments('id');
             $table->dateTime('tanggal');
             $table->integer('pembeli_id');
-            $table->integer('barang_id');
-            $table->integer('satuan');
-            $table->bigInteger('qty');
-            $table->double('harga_satuan', 12, 2);
-            $table->double('total_harga', 15, 2);
             $table->timestamps();
         });
     }
