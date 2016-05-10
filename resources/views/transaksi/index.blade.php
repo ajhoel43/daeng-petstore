@@ -28,12 +28,13 @@
                 <tr>
                     <td>{{ $transaksi->id }}</td>
                     <td>{{ $transaksi->tanggal }}</td>
-                    <td>{{ $transaksi->id_pembeli }}</td>
-                    <td>{{ $transaksi->id_barang }}</td>
-                    <td>{{ $transaksi->satuan }}</td>
+                    <td>{{ $transaksi->pembeli->nama }}</td>
+                    <td>{{ $transaksi->barang->nama }}</td>
+                    <td>{{ $transaksi->barang->satuan }}</td>
                     <td>{{ $transaksi->qty }}</td>
-                    <td>{{ $transaksi->harga_satuan }}</td>
-                    <td>{{ $transaksi->total_harga }}</td>
+                    <td>{{ $transaksi->barang->harga }}</td>
+                    <?php $total_harga = $transaksi->barang->harga * $transaksi->qty; ?>
+                    <td>{{ $total_harga }}</td>
                     <td align="center" width="80px">{{-- link_to_route('transaksi.edit', 'Edit', array($transaksi->id), array('class' => 'btn btn-info')) }}</td>
                     <td align="center" width="80px">
                         {{ Form::open(array('method' => 'DELETE', 'route' => array('transaksi.destroy', $transaksi->id))) }}
