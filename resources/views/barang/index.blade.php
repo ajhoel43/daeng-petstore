@@ -28,8 +28,8 @@
                     <td>{{ $no }}</td>
                     <td>{{ $barang->nama }}</td>
                     <td>{{ $barang->jenis }}</td>
-                    <td>{{ $barang->harga }}</td>
-                    <td>{{ $barang->stok }}</td>
+                    <td>{{ CURRENCY($barang->harga, 'id') }}</td>
+                    <td>{{ STOCK($barang->stok) }}</td>
                     <td>{{ $barang->satuan }}</td>
                     <td align="center" width="80px">{{ link_to_route('barang.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info')) }}</td>
                     <td align="center" width="80px">

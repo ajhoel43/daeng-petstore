@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             {{ Form::label('harga', 'Harga Barang:') }}
-            {{ Form::text('harga', $barang->harga, array('class' => 'form-control')) }}
+            {{ Form::number('harga', $barang->harga, array('class' => 'form-control')) }}
         </div>
         <div class="form-group">
             {{ Form::label('stok', 'Stok Barang:') }}

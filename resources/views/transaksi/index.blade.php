@@ -32,9 +32,9 @@
                     <td>{{ $transaksi->barang->nama }}</td>
                     <td>{{ $transaksi->barang->satuan }}</td>
                     <td>{{ $transaksi->qty }}</td>
-                    <td>{{ $transaksi->barang->harga }}</td>
+                    <td>{{ CURRENCY($transaksi->barang->harga) }}</td>
                     <?php $total_harga = $transaksi->barang->harga * $transaksi->qty; ?>
-                    <td>{{ $total_harga }}</td>
+                    <td>{{ CURRENCY($total_harga) }}</td>
                     <td align="center" width="80px">{{-- link_to_route('transaksi.edit', 'Edit', array($transaksi->id), array('class' => 'btn btn-info')) }}</td>
                     <td align="center" width="80px">
                         {{ Form::open(array('method' => 'DELETE', 'route' => array('transaksi.destroy', $transaksi->id))) }}
