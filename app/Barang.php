@@ -8,7 +8,7 @@ class Barang extends Model
 {
 	protected $guarded = array('id');
 
-	public function transaksi(){
-    	return $this->belongsTo('App\Transaksi');
+	public function pembelian(){
+    	return $this->belongsTo('App\Pembelian');
     }
 }
