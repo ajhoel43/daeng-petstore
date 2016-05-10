@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'C_barang@index');
 
 Route::resource('barang', 'C_barang');
 Route::resource('pembeli', 'C_pembeli');
