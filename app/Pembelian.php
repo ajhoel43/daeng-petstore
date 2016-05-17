@@ -10,4 +10,8 @@ class Pembelian extends Model
     {
     	return $this->hasMany('App\Barang', 'id');
     }
+
+    public function transaksi(){
+    	return $this->belongsTo('App\Transaksi', 'id');
+    }
 }

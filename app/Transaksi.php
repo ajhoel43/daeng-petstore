@@ -11,4 +11,8 @@ class Transaksi extends Model
     public function pembeli(){
     	return $this->hasOne('App\Pembeli', 'id');
     }
+
+    public function pembelian(){
+    	return $this->hasOne('App\Pembelian');
+    }
 }
