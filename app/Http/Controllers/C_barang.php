@@ -14,23 +14,6 @@ class C_barang extends Controller
 
     protected $satuan = array();
 
-    public function __construct()
-    {
-        $this->jenisbarang = array(
-            'Hewan' => 'Hewan',
-            'Makanan' => 'Makanan',
-            'Perlengkapan' => 'Perlengkapan'
-            );
-
-        $this->satuan = array(
-            'Gram' => 'Gram', 
-            'Kg' => 'Kg', 
-            'Pcs' => 'Pcs', 
-            'Lsn' => 'Lsn', 
-            'Ekor' => 'Ekor'
-            );
-    }
-
     public function index()
     {
     	$barangs = Barang::all();
@@ -57,8 +40,8 @@ class C_barang extends Controller
     public function create()
     {
         $data = array(
-            'jenis' => $this->jenisbarang,
-            'satuan' => $this->satuan
+            'jenis' => dropdown_jbar(),
+            'satuan' => dropdown_satuan()
             );
 
     	return View::make('barang.inputbarang', compact('data'));
@@ -93,12 +76,13 @@ class C_barang extends Controller
     public function edit($id)
     {
     	$barang = Barang::find($id);
+
         if (is_null($barang))
         {
             return Redirect::route('barang.index')->with('message', 'Barang dengan $id tidak ditemukan');
         }
-        $data['jenis'] = $this->jenisbarang;
-        $data['satuan'] = $this->satuan;
+        $data['jenis'] = dropdown_jbar();
+        $data['satuan'] = dropdown_satuan();
 
         return View::make('barang.editbarang', compact(array('barang', 'data')));
     }
