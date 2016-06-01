@@ -13,10 +13,11 @@ class CreatePembeliansTable extends Migration
     public function up()
     {
         Schema::create('pembelians', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('transaksi_id');
             $table->integer('barang_id');
-            $table->integer('satuan');
-            $table->bigInteger('qty');
+            $table->string('satuan');
+            $table->double('qty');
             $table->double('harga_satuan', 12, 2);
             $table->double('total_harga', 15, 2);
         });
