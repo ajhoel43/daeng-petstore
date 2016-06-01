@@ -2,12 +2,16 @@
 
 @section('main')
 
+<style type="text/css">
+table th {
+    text-align: center;
+}
+.right { text-align: right; }
+</style>
+
 <h1>Master Barang Daeng PetStore</h1>
-
-<p>{{ link_to_route('barang.create', 'Tambahkan Barang', null, array('class' => 'btn btn-primary')) }}</p>
-
 @if ($barangs->count())
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
 
@@ -17,7 +21,7 @@
                 <th>Harga</th>
                 <th>Stok</th>
                 <th>Satuan</th>
-                <th colspan="2" style="text-align: center;">Action</th>
+                <th colspan="2">Action</th>
             </tr>
         </thead>
 
@@ -28,8 +32,8 @@
                     <td>{{ $no }}</td>
                     <td>{{ $barang->nama }}</td>
                     <td>{{ $barang->jenis }}</td>
-                    <td>{{ CURRENCY($barang->harga, 'id') }}</td>
-                    <td>{{ STOCK($barang->stok) }}</td>
+                    <td class="right">{{ CURRENCY($barang->harga, 'id') }}</td>
+                    <td class="right">{{ STOCK($barang->stok) }}</td>
                     <td>{{ $barang->satuan }}</td>
                     <td align="center" width="80px">{{ link_to_route('barang.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info')) }}</td>
                     <td align="center" width="80px">
