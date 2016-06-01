@@ -9,6 +9,6 @@ class Pembeli extends Model
     protected $guarded = array('id');
 
     public function transaksi(){
-    	return $this->belongsTo('App\Transaksi');
+    	return $this->hasMany('App\Transaksi');
     }
 }

@@ -9,6 +9,6 @@ class Barang extends Model
 	protected $guarded = array('id');
 
 	public function pembelian(){
-    	return $this->belongsTo('App\Pembelian');
+    	return $this->hasMany('App\Pembelian');
     }
 }

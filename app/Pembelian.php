@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pembelian extends Model
 {
+	protected $guarded = array('id');
+
     public function barang()
     {
-    	return $this->hasMany('App\Barang', 'id');
+    	return $this->belongsTo('App\Barang');
     }
 
     public function transaksi(){
-    	return $this->belongsTo('App\Transaksi', 'id');
+    	return $this->belongsTo('App\Transaksi');
     }
 }

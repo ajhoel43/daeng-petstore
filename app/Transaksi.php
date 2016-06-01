@@ -9,10 +9,10 @@ class Transaksi extends Model
     protected $guarded = array('id');
 
     public function pembeli(){
-    	return $this->hasOne('App\Pembeli', 'id');
+    	return $this->belongsTo('App\Pembeli');
     }
 
     public function pembelian(){
-    	return $this->hasOne('App\Pembelian');
+    	return $this->hasMany('App\Pembelian');
     }
 }
