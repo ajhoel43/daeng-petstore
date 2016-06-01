@@ -25,12 +25,6 @@
                     @include('layouts.navbar')
 
                     <div class="col-lg-12 content">
-                        @if (Session::has('message'))
-                            <div class="flash alert">
-                                <p>{{ Session::get('message') }}</p>
-                            </div>
-                        @endif
-
                         @yield('main')
                     </div>
                 </div>
