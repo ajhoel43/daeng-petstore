@@ -16,3 +16,5 @@ Route::get('/', 'C_barang@index');
 Route::resource('barang', 'C_barang');
 Route::resource('pembeli', 'C_pembeli');
 Route::resource('transaksi', 'C_transaksi');
+Route::get('transaksi/pembelian/{params}', 'C_transaksi@pembelian');
+Route::post('transaksi/store_pembelian', 'C_transaksi@store_pembelian');
