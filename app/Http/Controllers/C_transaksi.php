@@ -35,7 +35,7 @@ class C_transaksi extends Controller
         // $pembeli = Pembeli::firstOrCreate(['nama' => $input['nama']]);
         if($input['id'] == '')
         {
-            $pembeli = Pembeli::create($input);
+            $pembeli = $org = Pembeli::create($input);
         }
         else
         {
@@ -88,7 +88,28 @@ class C_transaksi extends Controller
         $id_tr = Input::get('transaksi_id');
         unset($input['submit']);
 
+        if($input['barang_id'] == '0' || $input['barang_id'] == null)
+        {
+            $message = 'Oops!! Terjadi error, barang tidak ditemukan';
+            return Redirect::route('transaksi.pembelian', $id_tr)
+                ->with('message', error_delimiter('danger', $message));
+        }
+
         DB::beginTransaction();
+
+        $sparams = array(
+            'id' => $input['barang_id'],
+            'qty' => $input['qty']
+            );
+        list($upd_stock, $msg) = $this->update_stock($sparams);
+
+        if(!$upd_stock)
+        {
+            DB::rollback();
+            return Redirect::route('transaksi.pembelian', $id_tr)
+                ->with('message', error_delimiter('danger', $msg));
+        }
+
         $result = Pembelian::create($input);
 
         if($result)
@@ -144,5 +165,27 @@ class C_transaksi extends Controller
         }
 
         return Response::json($json);
+    }
+
+    function update_stock($params = array())
+    {
+        $message = '';
+        $barang = Barang::find($params['id']);
+
+        $remain_stock = $barang->stok - $params['qty'];
+        $barang->stok = $remain_stock;
+
+        if($remain_stock < 0)
+        {
+            $message = 'Oops!! Stok barang tidak mencukupi :(';
+            return array(false, $message);
+        }
+
+        $result = $barang->update();
+        
+        if(!$result)
+            $message = 'Oops!! Terjadi error, gagal memperbaharui data';
+
+        return array($result, $message);
     }
 }
