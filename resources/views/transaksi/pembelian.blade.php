@@ -36,8 +36,8 @@ table tr th{
                     <th width="100px">Nama Barang</th>
                     <th width="100px">Jenis</th>
                     <th width="50px">Satuan</th>
-                    <th width="100px">Harga Satuan</th>
                     <th width="70px">Qty</th>
+                    <th width="100px">Harga Satuan</th>
                     <th width="100px">Total Harga</th>
                     <th colspan="2">Action</th>
                 </tr>
@@ -54,8 +54,8 @@ table tr th{
                             <td>{{ $barang->barang->nama }}</td>
                             <td>{{ $barang->barang->jenis }}</td>
                             <td>{{ $barang->satuan }}</td>
-                            <td class="number">{{ CURRENCY($barang->harga_satuan) }}</td>
                             <td class="number">{{ STOCK($barang->qty) }}</td>
+                            <td class="number">{{ CURRENCY($barang->harga_satuan) }}</td>
                             <td class="number">{{ CURRENCY($barang->total_harga) }}</td>
                             <td align="center" width="80px">{{ link_to_route('pembelian.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info')) }}</td>
                             <td align="center" width="80px">
@@ -71,10 +71,9 @@ table tr th{
                     ?>
                     @endforeach
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <strong>Total :</strong>
                         </td>
-                        <td class="number">{{ STOCK($subtotalqty) }}</td>
                         <td class="number">{{ CURRENCY($subtotal) }}</td>
                         <td colspan="2" class="blank"></td>
                     </tr>
