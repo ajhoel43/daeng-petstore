@@ -3,7 +3,7 @@
 @section('main')
 
 <div class="col-md-6">
-    <h1>Input Barang</h1>
+    <h1>Edit Barang</h1>
     {{ Form::model($barang, array('method' => 'PATCH', 'route' => array('barang.update', $barang->id))) }}
         <div class="form-group">
             {{ Form::label('nama', 'Nama Barang:') }}

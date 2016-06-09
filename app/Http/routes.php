@@ -16,5 +16,22 @@ Route::get('/', 'C_barang@index');
 Route::resource('barang', 'C_barang');
 Route::resource('pembeli', 'C_pembeli');
 Route::resource('transaksi', 'C_transaksi');
-Route::get('transaksi/pembelian/{params}', 'C_transaksi@pembelian');
-Route::post('transaksi/store_pembelian', 'C_transaksi@store_pembelian');
+
+// memberikan nama ke routes agar dapat digunakan untuk fungsi Form::open
+// Jika ingin menggunakan fungsi Redirect::route ataupun link_to_route
+// ataupun fungsi yang berhubungan dengan pemanggilan routes
+// kita harus memberikan alias terhadap masing-masing routes yang kita buat
+Route::get('transaksi/{transaksi}/pembelian', [
+	'as' => 'transaksi.pembelian', 
+	'uses' => 'C_transaksi@pembelian'
+	]);
+
+Route::post('transaksi/store_pembelian', [
+	'as' => 'transaksi.store_pembelian',
+	'uses' => 'C_transaksi@store_pembelian'
+	]);
+
+Route::get('transaksi/barang_autocomplete', [
+	'as' => 'transaksi.barang_autocomplete',
+	'uses' => 'C_transaksi@barang_autocomplete'
+	]);
