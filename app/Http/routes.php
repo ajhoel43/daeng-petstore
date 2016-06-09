@@ -35,3 +35,8 @@ Route::get('autocomplete_brg', [
 	'as' => 'autocomplete_brg',
 	'uses' => 'C_transaksi@barang_autocomplete'
 	]);
+
+Route::get('autocomplete_pembeli', [
+	'as' => 'autocomplete_pembeli',
+	'uses' => 'C_transaksi@autocomplete_pembeli'
+	]);
