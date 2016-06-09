@@ -6,7 +6,7 @@
         </button> <a class="navbar-brand" href="#">Daeng PetStore&#0153;</a>
     </div>
     
-    <div class="collapse navbar-collapse" id="navbar-1">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             <li>
                 <a href="{{ url('transaksi/create') }}"><span class="glyphicon glyphicon-plus-sign"></span> Buat Transaksi Baru</a>
