@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Transaksi as Transaksi;
 use App\Pembeli as Pembeli;
+use App\Pembelian as Pembelian;
 use App\Barang as Barang;
-use View, Input, Validator, Redirect, DB, HTML;
+use View, Input, Validator, Redirect, DB, HTML, Response;
 
 class C_transaksi extends Controller
 {
@@ -51,7 +52,6 @@ class C_transaksi extends Controller
                 );
 
             return Redirect::action('C_transaksi@pembelian', $transaksi->id);
-            // return Redirect::route('transaksi.pembelian', $transaksi->id);
         }
         else
         {
@@ -65,24 +65,39 @@ class C_transaksi extends Controller
     // Untuk menginputkan barang yang akan dibeli
     public function pembelian($id)
     {
-        $transaksi = Transaksi::find($id)->first();
-        // dd($transaksi);
-    	return View::make('transaksi.pembelian', compact('transaksi'));
+        $transaksi = Transaksi::find($id);
+        $barangs = Pembelian::where('transaksi_id', $id)->get();
+
+    	return View::make('transaksi.pembelian', compact('transaksi', 'barangs'));
     }
 
     public function show($params = array())
     {
-        $this->barang_autocomplete();
-        dd($params, 'test');
-    	// $id = $params['id'];
-        $transaksi = Transaksi::find($id);
-        dd($transaksi);
-        return View::make('transaksi.pembelian', compact('pembeli'));
+
     }
 
     public function store_pembelian()
     {
-        dd('TESTING');
+        $input = Input::all();
+
+        $id_tr = Input::get('transaksi_id');
+        unset($input['submit']);
+
+        DB::beginTransaction();
+        $result = Pembelian::create($input);
+
+        if($result)
+        {
+            DB::commit();
+            $message = 'Data has been insert successfully';
+            return Redirect::route('transaksi.pembelian', $id_tr)
+                ->with('message', error_delimiter('success', $message));
+        }
+
+        DB::rollback();
+        $message = 'Oops!! Something went wrong when inserting data';
+        return Redirect::route('transaksi.pembelian', $id_tr)
+            ->with('message', error_delimiter('warning', $message));
     }
 
     public function barang_autocomplete()
@@ -90,19 +105,19 @@ class C_transaksi extends Controller
         $params = Input::all();
 
         $barangs = DB::table('barangs')
-                    ->where('nama', 'like', "%".$params['nama_brg']."%")
+                    ->where('nama', 'like', "%".$params['term']."%")
                     ->get();
 
-        $result = array(
-            'error' => 1,
-            'error_msg' => 'Testing Error',
-            'barang' => $barangs
-            );
         $json = array();
         foreach ($barangs as $index => $barang) {
-            $json[] = $barang->nama;
+            $json[] = array(
+                'value' => $barang->nama, 
+                'id' => $barang->id,
+                'satuan' => $barang->satuan,
+                'harga' => $barang->harga,
+                );
         }
 
-        die(json_encode($json));
+        return Response::json($json);
     }
 }

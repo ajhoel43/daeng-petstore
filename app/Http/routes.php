@@ -31,7 +31,7 @@ Route::post('transaksi/store_pembelian', [
 	'uses' => 'C_transaksi@store_pembelian'
 	]);
 
-Route::get('transaksi/barang_autocomplete', [
-	'as' => 'transaksi.barang_autocomplete',
+Route::get('autocomplete_brg', [
+	'as' => 'autocomplete_brg',
 	'uses' => 'C_transaksi@barang_autocomplete'
 	]);

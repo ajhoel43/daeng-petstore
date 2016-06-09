@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pembelian extends Model
 {
 	protected $guarded = array('id');
+	public $timestamps = false;
 
     public function barang()
     {
