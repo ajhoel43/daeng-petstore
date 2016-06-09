@@ -10,12 +10,14 @@ table th {
 </style>
 
 <h1>Master Barang Daeng PetStore</h1>
+{{ link_to_route('barang.create', "Tambahkan Barang",'',array('class' => 'btn btn-warning')) }}
+<div>&nbsp;</div>
 @if ($barangs->count())
-    <table class="table table-striped table-bordered table-hover">
+    <table class="table table-bordered table-hover table-condensed">
         <thead>
             <tr>
 
-                <th>ID.</th>
+                <th width="5px">No.</th>
                 <th>Nama Barang</th>
                 <th>Jenis</th>
                 <th>Harga</th>
@@ -26,23 +28,29 @@ table th {
         </thead>
 
         <tbody>
-            <?php $no = 1; ?>
+            <?php $index = 1; ?>
             @foreach ($barangs as $barang)
-                <tr>
-                    <td>{{ $no }}</td>
+                @if($barang->stok <= 5)
+                    <tr class="danger">
+                @elseif($barang->stok > 5 and $barang->stok <= 10)
+                    <tr class="info">
+                @else
+                    <tr>
+                @endif
+                    <td align="center">{{ $index."." }}</td>
                     <td>{{ $barang->nama }}</td>
                     <td>{{ $barang->jenis }}</td>
                     <td class="right">{{ CURRENCY($barang->harga, 'id') }}</td>
                     <td class="right">{{ STOCK($barang->stok) }}</td>
                     <td>{{ $barang->satuan }}</td>
-                    <td align="center" width="80px">{{ link_to_route('barang.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info')) }}</td>
+                    <td align="center" width="80px">{{ link_to_route('barang.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info btn-xs')) }}</td>
                     <td align="center" width="80px">
                         {{ Form::open(array('method' => 'DELETE', 'route' => array('barang.destroy', $barang->id))) }}
-                        {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                        {{ Form::submit('Delete', array('class' => 'btn btn-danger btn-xs')) }}
                         {{ Form::close() }}
                     </td>
                 </tr>
-                <?php $no++; ?>
+                <?php $index++; ?>
             @endforeach
               
         </tbody>

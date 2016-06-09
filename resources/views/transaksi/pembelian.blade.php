@@ -35,8 +35,8 @@ table tr th{
                     <th width="20px">No.Barang</th>
                     <th width="100px">Nama Barang</th>
                     <th width="100px">Jenis</th>
-                    <th width="50px">Satuan</th>
                     <th width="70px">Qty</th>
+                    <th width="50px">Satuan</th>
                     <th width="100px">Harga Satuan</th>
                     <th width="100px">Total Harga</th>
                     <th colspan="2">Action</th>
@@ -53,8 +53,8 @@ table tr th{
                             <td>{{ $barang->barang_id }}</td>
                             <td>{{ $barang->barang->nama }}</td>
                             <td>{{ $barang->barang->jenis }}</td>
-                            <td>{{ $barang->satuan }}</td>
                             <td class="number">{{ STOCK($barang->qty) }}</td>
+                            <td>{{ $barang->satuan }}</td>
                             <td class="number">{{ CURRENCY($barang->harga_satuan) }}</td>
                             <td class="number">{{ CURRENCY($barang->total_harga) }}</td>
                             <td align="center" width="80px">{{ link_to_route('pembelian.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info')) }}</td>
@@ -95,7 +95,7 @@ table tr th{
             {{ Form::hidden('barang_id', '', array('class' => 'form-control')) }}
             <div class="form-group col-xs-6">
                 {{ Form::label('nama_barang', 'Nama barang:', array('class' => 'control-label')) }}
-                {{ Form::text('', '', array('class' => 'form-control brg_auto')) }}
+                {{ Form::text('nama_barang', '', array('class' => 'form-control brg_auto')) }}
             </div>
             <div class="form-group col-xs-6">
                 {{ Form::label('satuan', 'Satuan:', array('class' => 'control-label')) }}

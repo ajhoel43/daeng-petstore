@@ -9,11 +9,11 @@
     table th { text-align: center; }
 </style>
 @if ($pembelis->count())
-    <table class="table table-striped table-bordered">
+    <table class="table table-bordered table-condensed table-hover">
         <thead>
             <tr>
 
-                <th>No.</th>
+                <th width="5px">No.</th>
                 <th>Nama Pembeli</th>
                 <th>Alamat</th>
             </tr>
@@ -23,7 +23,7 @@
             <?php $index = 1; ?>
             @foreach ($pembelis as $pembeli)
                 <tr>
-                    <td>{{ $index }}</td>
+                    <td align="center">{{ $index."." }}</td>
                     <td>{{ $pembeli->nama }}</td>
                     <td>{{ $pembeli->alamat }}</td>
                     <!-- <td align="center" width="80px">{{-- link_to_route('pembeli.edit', 'Edit', array($pembeli->id), array('class' => 'btn btn-info')) }}</td>
