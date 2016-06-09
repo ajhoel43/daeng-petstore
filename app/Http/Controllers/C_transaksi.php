@@ -76,9 +76,102 @@ class C_transaksi extends Controller
     	return View::make('transaksi.pembelian', compact('transaksi', 'barangs'));
     }
 
+    public function edit_pembelian($id)
+    {
+        $pembelian = Pembelian::find($id);
+
+        return View::make('transaksi.edit_pembelian', compact('pembelian'));
+    }
+
+    public function update_pembelian()
+    {
+        $input = Input::all();
+
+        $id_tr = Input::get('transaksi_id');
+        unset($input['submit']);
+
+        if($input['barang_id'] == '0' || $input['barang_id'] == null)
+        {
+            $message = 'Oops!! Terjadi error, barang tidak ditemukan';
+            return Redirect::route('transaksi.pembelian', $id_tr)
+                ->with('message', error_delimiter('danger', $message));
+        }
+
+        DB::beginTransaction();
+        
+        $id_pbl = Input::get('id');
+        $old_pembelian = Pembelian::find($id_pbl);
+
+        $sparams = array(
+            'id' => $input['barang_id'],
+            'qty' => $input['qty'],
+            'old_qty' => $old_pembelian->qty,
+            'type' => 'update'
+            );
+        list($upd_stock, $msg) = $this->update_stock($sparams);
+
+        if(!$upd_stock)
+        {
+            DB::rollback();
+            return Redirect::route('transaksi.pembelian', $id_tr)
+                ->with('message', error_delimiter('danger', $msg));
+        }
+
+        $pembelian = Pembelian::find($id_pbl);
+        $result = $pembelian->update($input);
+
+        if($result)
+        {
+            DB::commit();
+            $message = 'Data has been update successfully';
+            return Redirect::route('transaksi.pembelian', $id_tr)
+                ->with('message', error_delimiter('success', $message));
+        }
+
+        DB::rollback();
+        $message = 'Oops!! Something went wrong when updating data';
+        return Redirect::route('transaksi.pembelian', $id_tr)
+            ->with('message', error_delimiter('warning', $message));
+    }
+
+    public function rm_pembelian($id)
+    {
+        DB::beginTransaction();
+        $pembelian = Pembelian::find($id);
+        $id_tr = $pembelian->transaksi_id;
+
+        $sparams = array(
+            'id' => $pembelian->barang_id,
+            'qty' => $pembelian->qty,
+            'type' => 'delete'
+            );
+
+        $upd_stock = $this->update_stock($sparams);
+
+        $result = $pembelian->delete();
+
+        if($upd_stock && $result)
+        {
+            DB::commit();
+            $message = 'Data has been deleted successfully';
+            return Redirect::route('transaksi.pembelian', $id_tr)
+                ->with('message', error_delimiter('success', $message));
+        }
+
+        DB::rollback();
+        $message = 'Oops!! Something went wrong when deleting data';
+        return Redirect::route('transaksi.pembelian', $id_tr)
+            ->with('message', error_delimiter('warning', $message));
+    }
+
     public function show($params = array())
     {
 
+    }
+
+    public function destroy()
+    {
+        
     }
 
     public function store_pembelian()
@@ -171,8 +264,22 @@ class C_transaksi extends Controller
     {
         $message = '';
         $barang = Barang::find($params['id']);
+        $remain_stock = 0;
 
-        $remain_stock = $barang->stok - $params['qty'];
+        if(isset($params['type']) && $params['type'] == 'update')
+        {
+            $remain_stock = $barang->stok + $params['old_qty'];
+            $remain_stock = $remain_stock - $params['qty'];
+        }
+        else if(isset($params['type']) && $params['type'] == 'delete')
+        {
+            $remain_stock = $barang->stok + $params['qty'];
+        }
+        else
+        {
+            $remain_stock = $barang->stok - $params['qty'];
+        }
+
         $barang->stok = $remain_stock;
 
         if($remain_stock < 0)
@@ -184,7 +291,7 @@ class C_transaksi extends Controller
         $result = $barang->update();
         
         if(!$result)
-            $message = 'Oops!! Terjadi error, gagal memperbaharui data';
+            $message = 'Oops!! Terjadi error, gagal memperbaharui stok barang';
 
         return array($result, $message);
     }

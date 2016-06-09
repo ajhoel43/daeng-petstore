@@ -57,9 +57,9 @@ table tr th{
                             <td class="number">{{ CURRENCY($barang->harga_satuan) }}</td>
                             <td class="number">{{ STOCK($barang->qty) }}</td>
                             <td class="number">{{ CURRENCY($barang->total_harga) }}</td>
-                            <td align="center" width="80px">{{ link_to_route('barang.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info')) }}</td>
+                            <td align="center" width="80px">{{ link_to_route('pembelian.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info')) }}</td>
                             <td align="center" width="80px">
-                                {{ Form::open(array('method' => 'DELETE', 'route' => array('barang.destroy', $barang->id))) }}
+                                {{ Form::open(array('method' => 'DELETE', 'route' => array('pembelian.hapus', $barang->id))) }}
                                 {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                                 {{ Form::close() }}
                             </td>

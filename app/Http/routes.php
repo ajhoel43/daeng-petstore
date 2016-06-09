@@ -26,9 +26,25 @@ Route::get('transaksi/{transaksi}/pembelian', [
 	'uses' => 'C_transaksi@pembelian'
 	]);
 
+Route::get('transaksi/{pembelian}/upd_pembelian', [
+	'as' => 'pembelian.edit',
+	'uses' => 'C_transaksi@edit_pembelian'
+	]);
+
 Route::post('transaksi/store_pembelian', [
 	'as' => 'transaksi.store_pembelian',
 	'uses' => 'C_transaksi@store_pembelian'
+	]);
+
+Route::post('transaksi/update_pembelian', [
+	'as' => 'pembelian.update',
+	'uses' => 'C_transaksi@update_pembelian'
+	]);
+
+// parameter pembelian harus menggunakan kata yang sama dengan addressnya
+Route::delete('pembelian/{pembelian}', [
+	'as' => 'pembelian.hapus',
+	'uses' => 'C_transaksi@rm_pembelian'
 	]);
 
 Route::get('autocomplete_brg', [
