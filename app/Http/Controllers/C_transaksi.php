@@ -179,12 +179,16 @@ class C_transaksi extends Controller
         $input = Input::all();
 
         $id_tr = Input::get('transaksi_id');
+
+        $repop_form = $input;
+        unset($input['nama_barang']);
         unset($input['submit']);
 
         if($input['barang_id'] == '0' || $input['barang_id'] == null)
         {
             $message = 'Oops!! Terjadi error, barang tidak ditemukan';
             return Redirect::route('transaksi.pembelian', $id_tr)
+                ->withInput($repop_form)
                 ->with('message', error_delimiter('danger', $message));
         }
 
@@ -200,6 +204,7 @@ class C_transaksi extends Controller
         {
             DB::rollback();
             return Redirect::route('transaksi.pembelian', $id_tr)
+                ->withInput($repop_form)
                 ->with('message', error_delimiter('danger', $msg));
         }
 
@@ -216,6 +221,7 @@ class C_transaksi extends Controller
         DB::rollback();
         $message = 'Oops!! Something went wrong when inserting data';
         return Redirect::route('transaksi.pembelian', $id_tr)
+            ->withInput($repop_form)
             ->with('message', error_delimiter('warning', $message));
     }
 
