@@ -13,25 +13,26 @@
         <thead>
             <tr>
 
-                <th>ID.</th>
+                <th>No.</th>
                 <th>Nama Pembeli</th>
                 <th>Alamat</th>
-                <th colspan="2">Action</th>
             </tr>
         </thead>
 
         <tbody>
+            <?php $index = 1; ?>
             @foreach ($pembelis as $pembeli)
                 <tr>
-                    <td>{{ $pembeli->id }}</td>
+                    <td>{{ $index }}</td>
                     <td>{{ $pembeli->nama }}</td>
                     <td>{{ $pembeli->alamat }}</td>
-                    <td align="center" width="80px">{{ link_to_route('pembeli.edit', 'Edit', array($pembeli->id), array('class' => 'btn btn-info')) }}</td>
+                    <!-- <td align="center" width="80px">{{-- link_to_route('pembeli.edit', 'Edit', array($pembeli->id), array('class' => 'btn btn-info')) }}</td>
                     <td align="center" width="80px">
                         {{ Form::open(array('method' => 'DELETE', 'route' => array('pembeli.destroy', $pembeli->id))) }}
                         {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                        {{ Form::close() }}
-                    </td>
+                        {{ Form::close() --}}
+                    </td> -->
+                    <?php $index++ ?>
                 </tr>
             @endforeach
               
