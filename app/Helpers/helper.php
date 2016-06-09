@@ -78,3 +78,13 @@ function FormatDateDB($date = null)
 
 	return $newDate;
 }
+
+function HumanDate($date = null)
+{
+	if(!$date)
+		$date = 'now';
+
+	$newDate = date('D, d M Y', strtotime($date));
+
+	return $newDate;
+}
