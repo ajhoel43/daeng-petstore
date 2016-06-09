@@ -32,19 +32,24 @@ class C_transaksi extends Controller
         // Inserting Pembeli
     	$input = Input::all();
 
-        $pembeli = Pembeli::firstOrCreate(['nama' => $input['nama']]);
-        // if($input['id'] == '')
-        // {
-        //     $insert = Pembeli::create($input);
-        // }
+        // $pembeli = Pembeli::firstOrCreate(['nama' => $input['nama']]);
+        if($input['id'] == '')
+        {
+            $pembeli = Pembeli::create($input);
+        }
+        else
+        {
+            $org = Pembeli::find($input['id']);
+            $pembeli = $org->update($input);
+        }
 
         // Inserting Transaksi
         $transaksi = new Transaksi;
         $transaksi->tanggal = FormatDateDB();
-        $transaksi->pembeli_id = $pembeli->id;
+        $transaksi->pembeli_id = $org->id;
         $insert = $transaksi->save();
 
-        if($insert)
+        if($insert && $pembeli)
         {
             DB::commit();
             $data = array(
@@ -108,13 +113,33 @@ class C_transaksi extends Controller
                     ->where('nama', 'like', "%".$params['term']."%")
                     ->get();
 
-        $json = array();
+        $result = array();
         foreach ($barangs as $index => $barang) {
-            $json[] = array(
+            $result[] = array(
                 'value' => $barang->nama, 
                 'id' => $barang->id,
                 'satuan' => $barang->satuan,
                 'harga' => $barang->harga,
+                );
+        }
+
+        return Response::json($result);
+    }
+
+    public function autocomplete_pembeli()
+    {
+        $params = Input::all();
+
+        $pembelis = DB::table('pembelis')
+                    ->where('nama', 'like', "%".$params['term']."%")
+                    ->get();
+
+        $json = array();
+        foreach ($pembelis as $index => $pembeli) {
+            $json[] = array(
+                'value' => $pembeli->nama, 
+                'id' => $pembeli->id,
+                'alamat' => $pembeli->alamat
                 );
         }
 
