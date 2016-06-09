@@ -50,7 +50,8 @@ function dropdown_jbar()
 	$list = array(
         'Hewan' => 'Hewan',
         'Makanan' => 'Makanan',
-        'Perlengkapan' => 'Perlengkapan'
+        'Perlengkapan' => 'Perlengkapan',
+        'Vitamin' => 'Vitamin'
 	    );
 
 	return $list;
