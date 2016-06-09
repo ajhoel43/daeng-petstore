@@ -11,7 +11,7 @@
         <thead>
             <tr>
 
-                <th>ID.</th>
+                <th>No.</th>
                 <th>Tanggal Transaksi</th>
                 <th>Pembeli</th>
                 <th>Variasi Barang</th>
@@ -21,6 +21,7 @@
         </thead>
 
         <tbody>
+            <?php $index = 1; ?>
             @foreach ($transaksis as $transaksi)
                 <?php 
                     $jumlahTransaksi = count($transaksi->pembelian);
@@ -32,18 +33,14 @@
                     ?>
                 @endforeach
                 <tr>
-                    <td>{{ $transaksi->id }}</td>
-                    <td>{{ $transaksi->tanggal }}</td>
+                    <td>{{ $index }}</td>
+                    <td>{{ HumanDate($transaksi->tanggal) }}</td>
                     <td>{{ $transaksi->pembeli->nama }}</td>
                     <td>{{ $jumlahTransaksi }}</td>
-                    <td>{{ $totalNTransaksi }}</td>
-                    <td align="center" width="80px">{{-- link_to_route('transaksi.edit', 'Edit', array($transaksi->id), array('class' => 'btn btn-info')) }}</td>
-                    <td align="center" width="80px">
-                        {{ Form::open(array('method' => 'DELETE', 'route' => array('transaksi.destroy', $transaksi->id))) }}
-                        {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                        {{ Form::close() --}}
-                    </td>
+                    <td align="right">{{ CURRENCY($totalNTransaksi) }}</td>
+                    <td align="center" width="80px">{{ link_to_route('transaksi.pembelian', 'Lihat', array($transaksi->id), array('class' => 'btn btn-info')) }}</td>
                 </tr>
+                <?php $index++; ?>
             @endforeach
               
         </tbody>

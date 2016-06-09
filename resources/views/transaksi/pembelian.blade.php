@@ -6,6 +6,7 @@ table tr th{
     text-align: center;
 }
 .number { text-align: right; }
+.blank { background: gray; }
 </style>
 <div class="col-md-12">
     <h3>Pembeli :</h3>
@@ -17,6 +18,10 @@ table tr th{
         <tr>
             <td>Alamat</td>
             <td>: {{ $transaksi->pembeli->alamat }}</td>
+        </tr>
+        <tr>
+            <td>Tanggal Transaksi</td>
+            <td>: {{ HumanDate($transaksi->tanggal) }}</td>
         </tr>
     </table>
     @if (Session::has('message'))
@@ -31,12 +36,16 @@ table tr th{
                     <th width="100px">Nama Barang</th>
                     <th width="100px">Jenis</th>
                     <th width="50px">Satuan</th>
-                    <th width="70px">Qty</th>
                     <th width="100px">Harga Satuan</th>
+                    <th width="70px">Qty</th>
                     <th width="100px">Total Harga</th>
                     <th colspan="2">Action</th>
                 </tr>
-                <?php $index = 1; ?>
+                <?php 
+                    $index = 1; 
+                    $subtotal = 0;
+                    $subtotalqty = 0;
+                ?>
                 @if($barangs->count())
                     @foreach ($barangs as $barang)
                         <tr>
@@ -45,8 +54,8 @@ table tr th{
                             <td>{{ $barang->barang->nama }}</td>
                             <td>{{ $barang->barang->jenis }}</td>
                             <td>{{ $barang->satuan }}</td>
-                            <td class="number">{{ STOCK($barang->qty) }}</td>
                             <td class="number">{{ CURRENCY($barang->harga_satuan) }}</td>
+                            <td class="number">{{ STOCK($barang->qty) }}</td>
                             <td class="number">{{ CURRENCY($barang->total_harga) }}</td>
                             <td align="center" width="80px">{{ link_to_route('barang.edit', 'Edit', array($barang->id), array('class' => 'btn btn-info')) }}</td>
                             <td align="center" width="80px">
@@ -55,11 +64,23 @@ table tr th{
                                 {{ Form::close() }}
                             </td>
                         </tr>
-                    <?php $index++; ?>
+                    <?php 
+                        $index++; 
+                        $subtotal += $barang->total_harga;
+                        $subtotalqty += $barang->qty;
+                    ?>
                     @endforeach
+                    <tr>
+                        <td colspan="6">
+                            <strong>Total :</strong>
+                        </td>
+                        <td class="number">{{ STOCK($subtotalqty) }}</td>
+                        <td class="number">{{ CURRENCY($subtotal) }}</td>
+                        <td colspan="2" class="blank"></td>
+                    </tr>
                 @else
                 <tr>
-                    <td colspan="6" style="color: red;">
+                    <td colspan="9" style="color: red;">
                         Belum ada daftar barang yang dibeli
                     </td>
                 </tr>
@@ -107,16 +128,17 @@ table tr th{
 <script>
 $.ajaxSetup({cache:false, async: false});
 
-$(".brg_auto").autocomplete({
-    source: "{!! route('autocomplete_brg') !!}",
-    minLength: 3,
-    select: function(event, ui){
-        $(".brg_auto").val(ui.item.value);
-        $("[name='barang_id']").val(ui.item.id);
-        $("[name='satuan']").val(ui.item.satuan);
-        $("[name='harga_satuan']").val(ui.item.harga);
-    }
-});
+setTimeout(function(){
+    $(".brg_auto").autocomplete({
+        source: "{!! route('autocomplete_brg') !!}",
+        select: function(event, ui){
+            $(".brg_auto").val(ui.item.value);
+            $("[name='barang_id']").val(ui.item.id);
+            $("[name='satuan']").val(ui.item.satuan);
+            $("[name='harga_satuan']").val(ui.item.harga);
+        }
+    });
+}, 1500);
 
 $("[name='total_harga']").on("focus blur", function(){
     calc_Total();
