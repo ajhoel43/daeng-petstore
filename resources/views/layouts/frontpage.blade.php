@@ -1,4 +1,3 @@
-
  <!doctype html>
  <html  xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
     <head>
@@ -41,7 +40,8 @@
                         <div id="QpuTs29WH6w36uro1gC5eqP7rXIqbWzd" class="widget widget-text">
                             <h2></h2>
                             <h2>
-                                <?php 
+                                <?php
+                                    date_default_timezone_set('Asia/Jakarta');
                                     $str = 'now';
                                     $date = date('d F Y', strtotime($str));
                                     $time = date('H:i', strtotime($str));
