@@ -34,7 +34,10 @@
                             <h2></h2>
                             <h2></h2>
                             <h2>
-                                Nama Kelompok :<br>  &nbsp;- Antar Wismayanto<br>&nbsp; &nbsp;- Muhammad Naufal Nadhir<br>&nbsp; &nbsp;- Pandu Wiranata<br><br>
+                                Nama Kelompok :<br>
+                                &nbsp;&nbsp;&nbsp;- Antar Wismayanto<br>
+                                &nbsp; &nbsp;- Muhammad Naufal Nadhir<br>
+                                &nbsp; &nbsp;- Pandu Wiranata<br><br>
                             </h2>
                         </div>
                         <div id="QpuTs29WH6w36uro1gC5eqP7rXIqbWzd" class="widget widget-text">
